@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+
+import sys
 import pandas as pd 
 from pandas.tseries.offsets import MonthEnd
 
@@ -24,7 +27,7 @@ def parse(series):
 
 def currencyformat(x):
     return int(x/100)
-    
+
 def labels(row):
     if row['TYPE'] == 'OVERDUE':
         row['Amount3'] =row['Amount']
@@ -136,6 +139,11 @@ def transform(filename):
     df=df.apply(labels,axis=1)
     return df
 
-
-#df=transform('innopac.charge.01-09-2019')
-#LineNum|InvoiceNo|InvDate|Location|PatronNo|ID|Name|Name2|Address1|Address2|Country|P1|P2|P3|pType|ItemBarcode|ItemTitle|CALL#|TYPE|FieldS|FieldT|FieldU| Amount | Amount2 | Amount3 | AmtTotal |RprtDate|CutOffDate|DueDateInv|CheckNo|DatePaid|AmtPaid|WhoEntered|DateToCashiers|AcctStatus|DateNoticeSent|DateToCollection|PaidOKToMove|Notes|LblAmt|LblAmt2|LblAmt3|AmtTotal1
+if __name__ == "__main__":
+    result=[]
+    inputs=sys.argv[1].split(',')
+    for item in inputs:
+        result.append(transform(item))
+    df=pd.concat(result,ignore_index=True)
+    df.to_csv(sys.argv[2],sep='|',index=False)
+    
