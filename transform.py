@@ -23,14 +23,8 @@ def parse(series):
     return list1, list2, list3
 
 def currencyformat(x):
-    #z=int(x/100)
     return int(x/100)
-    #print(z)
-    #return "{0}".format(z)
-    # if z<0:
-    #     return "{0}".format(z) #.replace('-','')
-    # else:
-    #     return "{0:.2f}".format(z)
+    
 def labels(row):
     if row['TYPE'] == 'OVERDUE':
         row['Amount3'] =row['Amount']
@@ -114,16 +108,16 @@ def transform(filename):
     df.insert(9, 'Address2', addr2)
     df.insert(10, 'Country', country)
     df=df.rename(columns={7:"P1",8:"P2",9:"P3",10:"pType",11:"ItemBarcode",12:"ItemTitle",13:"CallNo",14:"TYPE",15:"Amount",16:"Amount2",17:"Amount3"})
+    #Amounts
     df['Amount']=df['Amount'].apply(currencyformat)
     df['Amount2']=df['Amount2'].apply(currencyformat)
     df['Amount3']=df['Amount3'].apply(currencyformat)
     df['AmtTotal'] = df["Amount"] + df["Amount2"] + df["Amount3"]
-    #df['AmtTotal']=sum_column
-    #df['AmtTotal']=df['AmtTotal'].apply(currencyformat)
-    #df = df.drop(columns=['FieldS', 'FieldT','FieldU'])
+    # Dates
     df['RprtDate']=transc_date.strftime('%m/%d/%Y')	
     df['CutOffDate']=(transc_date + MonthEnd(1)).strftime('%m/%d/%Y')		
-    df['DueDateInv']=(transc_date + MonthEnd(2)).strftime('%m/%d/%Y')	
+    df['DueDateInv']=(transc_date + MonthEnd(2)).strftime('%m/%d/%Y')
+    # Add Additional columns
     df['CheckNo']=""
     df['DatePaid']=""
     df['AmtPaid']=""
@@ -138,6 +132,7 @@ def transform(filename):
     df['LblAmt2']=""
     df['LblAmt3']=""
     df['AmtTotal1']="AmtTotal1"
+    # Apply Labels
     df=df.apply(labels,axis=1)
     return df
 
