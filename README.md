@@ -1,6 +1,6 @@
 # Patron Fines (Sierra)
 
-Repository hold code that transforms the innopac charge files from Sierra.
+Patron Fines transform code for the innopac charge files from Sierra.
 
 ## Requirements
 
