@@ -1,0 +1,12 @@
+#!/usr/bin/env python3
+import sys
+import transform as tr
+import pandas as pd 
+
+if __name__ == "__main__":
+    result=[]
+    inputs=sys.argv[1].split(',')
+    for item in inputs:
+        result.append(tr.transform(item))
+    df=pd.concat(result,ignore_index=True)
+    df.to_csv(sys.argv[2],sep='|',index=False)
