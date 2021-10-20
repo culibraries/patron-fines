@@ -2,6 +2,7 @@
 
 import sys
 import pandas as pd 
+import calendar
 from pandas.tseries.offsets import MonthEnd
 
 def parse(series):
@@ -83,6 +84,8 @@ def labels(row):
             row['LblAmt3'] ='NA'
     return row
 
+def last_business_day_in_month(year: int, month: int) -> int:
+    return max(calendar.monthcalendar(year, month)[-1:][0][:5])
 
 def transform(filename):
     #LineNum
@@ -111,6 +114,8 @@ def transform(filename):
     df.insert(9, 'Address2', addr2)
     df.insert(10, 'Country', country)
     df=df.rename(columns={7:"P1",8:"P2",9:"P3",10:"pType",11:"ItemBarcode",12:"ItemTitle",13:"CallNo",14:"TYPE",15:"Amount",16:"Amount2",17:"Amount3"})
+    # Truncate Title 255 char
+    df['ItemTitle']=df['ItemTitle'].str.slice(0,254)
     #Amounts
     df['Amount']=df['Amount'].apply(currencyformat)
     df['Amount2']=df['Amount2'].apply(currencyformat)
@@ -118,8 +123,8 @@ def transform(filename):
     df['AmtTotal'] = df["Amount"] + df["Amount2"] + df["Amount3"]
     # Dates
     df['RprtDate']=transc_date.strftime('%m/%d/%Y')	
-    df['CutOffDate']=(transc_date + MonthEnd(1)).strftime('%m/%d/%Y')		
-    df['DueDateInv']=(transc_date + MonthEnd(2)).strftime('%m/%d/%Y')
+    df['CutOffDate']=transc_date.replace(day = last_business_day_in_month(transc_date.year, transc_date.month)).strftime('%m/%d/%Y')	
+    df['DueDateInv']=transc_date.replace(month= (transc_date.month +1) % 12 , day = last_business_day_in_month(transc_date.year, (transc_date.month +1) % 12)).strftime('%m/%d/%Y')
     # Add Additional columns
     df['CheckNo']=""
     df['DatePaid']=""
