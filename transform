@@ -9,4 +9,4 @@ if __name__ == "__main__":
     for item in inputs:
         result.append(tr.transform(item))
     df=pd.concat(result,ignore_index=True)
-    df.to_csv(sys.argv[2],sep='|',index=False)
+    df.to_csv(sys.argv[2], sep='|', index=False)
