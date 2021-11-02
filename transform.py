@@ -87,10 +87,10 @@ def last_business_day_in_month(year: int, month: int) -> int:
 
 def transform(filename):
     #LineNum
-    df=pd.read_csv(filename,sep='|')
+    df=pd.read_csv(filename,sep='|',engine='python' )
     header = list(df.columns)
     transc_date=pd.to_datetime(header[-1],format='%y%m%d',errors='ignore').date()
-    df=pd.read_csv(filename,sep='|',skiprows=1,header=None)
+    df=pd.read_csv(filename,sep='|',skiprows=1,header=None,engine='python' )
     linenum= [transc_date.strftime('1%m%d%y') + ('0000' + str(i))[-4:] for i in range(1,(len(df)+1))]
     df.insert(0, 'LineNum', linenum)
     #InvoiceNo
