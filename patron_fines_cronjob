@@ -21,8 +21,10 @@ def runPatronFineTransform():
         try:
             object_name=pfile_name.split('/')[-1]
             response = s3_client.upload_file(pfile_name, "cubl-patron-fines", object_name)
+            print(response)
         except ClientError as e:
-            logging.error(e)
+            print(e)
 
 if __name__ == "__main__":
     runPatronFineTransform()
+    print("Success\n")
