@@ -1,4 +1,4 @@
-#!/home/ec2-user/scripts/patron-fines/venv/bin/python
+#!/usr/bin/env python3
 import transform as tr
 import sys, os, boto3
 import logging
