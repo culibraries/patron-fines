@@ -1,6 +1,6 @@
-#!/usr/bin/env python3
-import sys, os, boto3
+#!/home/ec2-user/scripts/patron-fines/venv/bin/python
 import transform as tr
+import sys, os, boto3
 import logging
 from botocore.exceptions import ClientError
 from pathlib import Path
