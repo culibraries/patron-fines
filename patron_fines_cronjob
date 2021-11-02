@@ -8,17 +8,18 @@ from datetime import datetime
 
 def runPatronFineTransform():
     path="/data/sierra"
-    filename="{0}/innopac.charge"
+    filename="{0}/innopac.charge".format(path)
     path = Path(filename)
     if path.is_file():
         now = datetime.now()
-        new_filename="{0}.{1}".format(filename,now.strftime("%Y-%m-%d"))
+        new_filename="{0}.{1}".format(filename,now.strftime("%m-%d-%Y"))
         path.rename(new_filename)
         df=tr.transform(new_filename)
-        pfile_name="processed-{0}.csv".format(new_filename)
+        pfile_name="{0}-processed.csv".format(new_filename)
         df.to_csv(pfile_name, sep='|', index=False)
         s3_client = boto3.client('s3')
         try:
+            object_name=pfile_name.split('/')[-1]
             response = s3_client.upload_file(pfile_name, "cubl-patron-fines", object_name)
         except ClientError as e:
             logging.error(e)
