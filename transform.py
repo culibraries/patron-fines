@@ -2,7 +2,7 @@ import sys
 import pandas as pd 
 import calendar
 from pandas.tseries.offsets import MonthEnd
-
+from dateutil import relativedelta
 def parse(series):
     list1=[]
     list2=[]
@@ -122,7 +122,8 @@ def transform(filename):
     # Dates
     df['RprtDate']=transc_date.strftime('%m/%d/%Y')	
     df['CutOffDate']=transc_date.replace(day = last_business_day_in_month(transc_date.year, transc_date.month)).strftime('%m/%d/%Y')	
-    df['DueDateInv']=transc_date.replace(month= (transc_date.month +1) % 12 , day = last_business_day_in_month(transc_date.year, (transc_date.month +1) % 12)).strftime('%m/%d/%Y')
+    next_month=(transc_date + relativedelta.relativedelta(months=1)).month
+    df['DueDateInv']=transc_date.replace(month= next_month , day = last_business_day_in_month(transc_date.year, next_month)).strftime('%m/%d/%Y')
     # Add Additional columns
     df['CheckNo']=""
     df['DatePaid']=""
