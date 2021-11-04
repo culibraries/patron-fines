@@ -12,7 +12,7 @@ def runPatronFineTransform():
     path = Path(filename)
     if path.is_file():
         now = datetime.now()
-        new_filename="{0}.{1}".format(filename,now.strftime("%m-%d-%Y"))
+        new_filename="{0}/{1}.{2}".format("/".join(path.split('/')[:-1]),now.strftime("%Y-%m-%d"),"innopac.charge")
         path.rename(new_filename)
         df=tr.transform(new_filename)
         pfile_name="{0}-processed.csv".format(new_filename)
