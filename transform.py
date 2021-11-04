@@ -123,7 +123,8 @@ def transform(filename):
     df['RprtDate']=transc_date.strftime('%m/%d/%Y')	
     df['CutOffDate']=transc_date.replace(day = last_business_day_in_month(transc_date.year, transc_date.month)).strftime('%m/%d/%Y')	
     next_month=(transc_date + relativedelta.relativedelta(months=1)).month
-    df['DueDateInv']=transc_date.replace(month= next_month , day = last_business_day_in_month(transc_date.year, next_month)).strftime('%m/%d/%Y')
+    next_year=(transc_date + relativedelta.relativedelta(months=1)).year
+    df['DueDateInv']=transc_date.replace(month= next_month , year=next_year, day = last_business_day_in_month(next_year, next_month)).strftime('%m/%d/%Y')
     # Add Additional columns
     df['CheckNo']=""
     df['DatePaid']=""
