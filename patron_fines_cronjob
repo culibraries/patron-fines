@@ -12,14 +12,14 @@ def runPatronFineTransform():
     path = Path(filename)
     if path.is_file():
         now = datetime.now()
-        new_filename="{0}/{1}.{2}".format("/".join(path.split('/')[:-1]),now.strftime("%Y-%m-%d"),"innopac.charge")
+        new_filename="{0}.{1}".format(filename,now.strftime("%m-%d-%Y"))
         path.rename(new_filename)
         df=tr.transform(new_filename)
         pfile_name="{0}-processed.csv".format(new_filename)
         df.to_csv(pfile_name, sep='|', index=False)
         s3_client = boto3.client('s3')
         try:
-            object_name=pfile_name.split('/')[-1]
+            object_name="{0}.innopac.charge-processed.csv".format(now.strftime("%Y-%m-%d"))
             response = s3_client.upload_file(pfile_name, "cubl-patron-fines", object_name)
             print(response)
         except ClientError as e:
