@@ -8,20 +8,15 @@ def parse(series):
     list2=[]
     list3=[]
     for item in list(series):
-        if '$' in item: 
-            #print(item)
-            try:
-                tmp1,tmp2=item.split('$')
-                tmp3=""
-            except:
-                tmp1,tmp2,tmp3=item.split('$')
-            list1.append(tmp1)
-            list2.append(tmp2)
-            list3.append(tmp3)
-        else:
-            list1.append(item)
-            list2.append("")
-            list3.append("")
+        tempitem=item.split('$') + ['']*3
+        tempitem=tempitem[:3]
+        for i,v in enumerate(tempitem):
+            if i==0:
+                list1.append(v)
+            if i==1:
+                list2.append(v)
+            if i==2:
+                list3.append(v)
     return list1, list2, list3
 
 def currencyformat(x):
