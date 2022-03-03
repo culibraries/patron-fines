@@ -139,11 +139,4 @@ def transform(filename):
     df=df.apply(labels,axis=1)
     return df
 
-# if __name__ == "__main__":
-#     result=[]
-#     inputs=sys.argv[1].split(',')
-#     for item in inputs:
-#         result.append(transform(item))
-#     df=pd.concat(result,ignore_index=True)
-#     df.to_csv(sys.argv[2],sep='|',index=False)
     
