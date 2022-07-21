@@ -3,6 +3,8 @@ import pandas as pd
 import calendar
 from pandas.tseries.offsets import MonthEnd
 from dateutil import relativedelta
+from decimal import Decimal
+
 def parse(series):
     list1=[]
     list2=[]
@@ -20,7 +22,8 @@ def parse(series):
     return list1, list2, list3
 
 def currencyformat(x):
-    return int(x/100)
+    # Currency requires Decimal type and string for best precision
+    return Decimal(str(x))/Decimal('100')
 
 def labels(row):
     if row['TYPE'] == 'OVERDUE':
